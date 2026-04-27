@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.POS_App" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primary_warm</item>
+        <item name="colorOnPrimary">@color/onPrimary_warm</item>
+        <item name="colorPrimaryContainer">@color/primaryContainer_warm</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer_warm</item>
+
+        <item name="colorSecondary">@color/secondary_warm</item>
+        <item name="colorOnSecondary">@color/onSecondary_warm</item>
+        <item name="colorSecondaryContainer">@color/secondaryContainer_warm</item>
+        <item name="colorOnSecondaryContainer">@color/onSecondaryContainer_warm</item>
+
+        <item name="colorTertiary">@color/tertiary_warm</item>
+        <item name="colorOnTertiary">@color/onTertiary_warm</item>
+        <item name="colorTertiaryContainer">@color/tertiaryContainer_warm</item>
+        <item name="colorOnTertiaryContainer">@color/onTertiaryContainer_warm</item>
+
+        <item name="android:windowBackground">@color/background_warm</item>
+        <item name="colorOnBackground">@color/onBackground_warm</item>
+        <item name="colorSurface">@color/surface_warm</item>
+        <item name="colorOnSurface">@color/onSurface_warm</item>
+    </style>
+
+    <style name="Theme.POS_App" parent="Base.Theme.POS_App" />
+</resources>

@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.POS_App" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">@color/primary_warm_dark</item>
+        <item name="colorOnPrimary">@color/onPrimary_warm_dark</item>
+        <item name="colorPrimaryContainer">@color/primaryContainer_warm_dark</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer_warm_dark</item>
+
+        <item name="colorSecondary">@color/secondary_warm_dark</item>
+        <item name="colorOnSecondary">@color/onSecondary_warm_dark</item>
+        <item name="colorSecondaryContainer">@color/secondaryContainer_warm_dark</item>
+        <item name="colorOnSecondaryContainer">@color/onSecondaryContainer_warm_dark</item>
+
+        <item name="colorTertiary">@color/tertiary_warm_dark</item>
+        <item name="colorOnTertiary">@color/onTertiary_warm_dark</item>
+        <item name="colorTertiaryContainer">@color/tertiaryContainer_warm_dark</item>
+        <item name="colorOnTertiaryContainer">@color/onTertiaryContainer_warm_dark</item>
+
+        <item name="android:windowBackground">@color/background_warm_dark</item>
+        <item name="colorOnBackground">@color/onBackground_warm_dark</item>
+        <item name="colorSurface">@color/surface_warm_dark</item>
+        <item name="colorOnSurface">@color/onSurface_warm_dark</item>
+    </style>
+</resources>
