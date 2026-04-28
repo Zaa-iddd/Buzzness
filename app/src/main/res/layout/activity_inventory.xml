@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".InventoryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:paddingTop="32dp">
+        android:paddingTop="32dp"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -36,6 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Material3.TabLayout"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabSelectedTextColor="?attr/colorPrimary"
             app:tabMode="fixed">
 
             <com.google.android.material.tabs.TabItem
@@ -58,8 +63,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="16dp"
             app:startIconDrawable="@android:drawable/ic_menu_search"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -75,18 +81,22 @@
             android:id="@+id/rv_inventory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
+            android:paddingHorizontal="12dp"
             android:clipToPadding="false" />
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_add_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Add Product"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:layout_margin="24dp"
+        android:text="Add Product"
+        android:textColor="?attr/colorOnPrimaryContainer"
+        app:icon="@android:drawable/ic_input_add"
+        app:iconTint="?attr/colorOnPrimaryContainer"
+        app:backgroundTint="?attr/colorPrimaryContainer"
+        app:cardElevation="6dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

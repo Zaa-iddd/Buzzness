@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".AnalysisActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:paddingTop="32dp">
+        android:paddingTop="32dp"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Sales Analysis"
-            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIcon="@drawable/ic_back"
             style="@style/Widget.Material3.Toolbar"
             android:background="?attr/colorPrimary"
             app:titleTextColor="?attr/colorOnPrimary"
@@ -26,6 +28,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/analysis_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -48,15 +51,17 @@
                     android:id="@+id/btn_date_range"
                     style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
                     android:text="Select Date Range"
-                    app:icon="@android:drawable/ic_menu_today" />
+                    app:icon="@android:drawable/ic_menu_today"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large" />
 
                 <ImageButton
                     android:id="@+id/btn_clear_filter"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
                     android:src="@android:drawable/ic_menu_close_clear_cancel"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Clear filter"
@@ -70,63 +75,68 @@
                 android:layout_height="wrap_content"
                 android:text="Showing: All time"
                 android:textAppearance="?attr/textAppearanceLabelLarge"
-                android:layout_marginBottom="16dp" />
+                android:alpha="0.7"
+                android:layout_marginBottom="24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Balance Trend"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="?attr/colorOutlineVariant">
+                android:layout_marginBottom="28dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/salesChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="12dp" />
+                    android:padding="16dp" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Product Sales Performance"
+                android:text="Top Product Performance"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="16dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="?attr/colorOutlineVariant">
+                android:layout_marginBottom="28dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/productChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="12dp" />
+                    android:padding="16dp" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Insight"
+                android:text="Data Insights"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
                 app:strokeWidth="0dp"
                 app:cardBackgroundColor="?attr/colorSurfaceVariant">
 
@@ -134,9 +144,10 @@
                     android:id="@+id/tv_insight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="20dp"
                     android:text="This graph shows your cumulative balance trend based on your sales history."
-                    android:textAppearance="?attr/textAppearanceBodyMedium" />
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:lineSpacingExtra="4dp" />
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

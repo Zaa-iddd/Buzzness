@@ -5,6 +5,7 @@
     android:id="@+id/pos_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".POSActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,13 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
+        android:paddingTop="32dp"
+        app:elevation="0dp"
         app:liftOnScroll="false">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Point of Sale"
+            app:title="Checkout"
             app:navigationIcon="@drawable/ic_back"
             app:navigationIconTint="?attr/colorOnPrimary"
             app:titleTextColor="?attr/colorOnPrimary"
@@ -27,6 +30,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/pos_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -45,8 +49,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Search Products"
+                app:startIconDrawable="@android:drawable/ic_menu_search"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_marginEnd="8dp">
+                android:layout_marginEnd="12dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_search"
@@ -60,36 +66,41 @@
                 android:id="@+id/btn_qr_scan"
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 app:icon="@drawable/ic_qr_code"
-                android:text="Scan" />
+                android:text="Scan"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Available Products"
+            android:text="Products"
             android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_products"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:layout_marginBottom="16dp" />
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp"
+            android:clipToPadding="false" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            app:dividerColor="?attr/colorOutlineVariant" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cart"
+            android:text="Your Cart"
             android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -97,12 +108,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.8"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:clipToPadding="false" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="6dp"
             app:strokeWidth="0dp"
             app:cardBackgroundColor="?attr/colorPrimaryContainer">
 
@@ -110,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -122,16 +135,88 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Total:"
-                        android:textAppearance="?attr/textAppearanceTitleLarge"
+                        android:text="Subtotal"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:alpha="0.8" />
+
+                    <TextView
+                        android:id="@+id/tv_subtotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$0.00"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switch_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add Discount"
+                        android:textAppearance="?attr/textAppearanceLabelLarge"
                         android:textColor="?attr/colorOnPrimaryContainer" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_discount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:visibility="gone"
+                        app:suffixText="%"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                        app:boxStrokeColor="?attr/colorOnPrimaryContainer"
+                        app:hintTextColor="?attr/colorOnPrimaryContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_discount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:maxLength="3"
+                            android:textSize="14sp"
+                            android:textColor="?attr/colorOnPrimaryContainer" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    app:dividerColor="?attr/colorOnPrimaryContainer"
+                    android:alpha="0.2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total Amount"
+                        android:textAppearance="?attr/textAppearanceTitleLarge"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$0.00"
-                        android:textAppearance="?attr/textAppearanceTitleLarge"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
                         android:textColor="?attr/colorOnPrimaryContainer"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -140,8 +225,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Amount Paid"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
                     app:boxStrokeColor="?attr/colorOnPrimaryContainer"
                     app:hintTextColor="?attr/colorOnPrimaryContainer">
 
@@ -156,12 +242,15 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_checkout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Checkout and Print Receipt"
+            android:layout_height="64dp"
+            android:layout_marginTop="20dp"
+            android:text="Pay and Print Receipt"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textStyle="bold"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
             style="@style/Widget.Material3.Button" />
 
     </LinearLayout>

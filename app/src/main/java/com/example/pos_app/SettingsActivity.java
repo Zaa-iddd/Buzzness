@@ -1,8 +1,9 @@
 package com.example.pos_app;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RadioGroup;
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import com.example.pos_app.data.AppDatabase;
@@ -13,28 +14,37 @@ public class SettingsActivity extends AppCompatActivity {
 
     private AppDatabase db;
     private RadioGroup rgTheme;
+    private RadioGroup rgTone;
+    private boolean isUpdatingUI = true; // Start true to block initial triggers
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.applyTheme(this);
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        db = AppDatabase.getInstance(this);
 
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
 
+        db = AppDatabase.getInstance(this);
         rgTheme = findViewById(R.id.rg_theme);
+        rgTone = findViewById(R.id.rg_tone);
 
-        loadSettings();
         setupListeners();
+        loadSettings();
     }
 
     private void loadSettings() {
         new Thread(() -> {
             String theme = db.appDao().getSetting("theme");
+            String tone = db.appDao().getSetting("tone");
+            
             runOnUiThread(() -> {
+                isUpdatingUI = true;
+                
+                // Load Theme (Light/Dark)
                 if ("light".equals(theme)) {
                     rgTheme.check(R.id.rb_theme_light);
                 } else if ("dark".equals(theme)) {
@@ -42,12 +52,27 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     rgTheme.check(R.id.rb_theme_system);
                 }
+
+                // Load Tone (Color Palette)
+                if ("blue".equals(tone)) {
+                    rgTone.check(R.id.rb_tone_blue);
+                } else if ("green".equals(tone)) {
+                    rgTone.check(R.id.rb_tone_green);
+                } else if ("purple".equals(tone)) {
+                    rgTone.check(R.id.rb_tone_purple);
+                } else {
+                    rgTone.check(R.id.rb_tone_gold);
+                }
+                
+                isUpdatingUI = false;
             });
         }).start();
     }
 
     private void setupListeners() {
         rgTheme.setOnCheckedChangeListener((group, checkedId) -> {
+            if (isUpdatingUI) return;
+            
             String themeValue;
             int mode;
 
@@ -64,6 +89,31 @@ public class SettingsActivity extends AppCompatActivity {
 
             AppCompatDelegate.setDefaultNightMode(mode);
             saveSetting("theme", themeValue);
+        });
+
+        rgTone.setOnCheckedChangeListener((group, checkedId) -> {
+            if (isUpdatingUI) return;
+
+            String toneValue;
+            if (checkedId == R.id.rb_tone_blue) {
+                toneValue = "blue";
+            } else if (checkedId == R.id.rb_tone_green) {
+                toneValue = "green";
+            } else if (checkedId == R.id.rb_tone_purple) {
+                toneValue = "purple";
+            } else {
+                toneValue = "gold";
+            }
+
+            // Update cache immediately to prevent recreation flicker/reversion
+            ThemeUtils.setCachedTone(toneValue);
+            saveSetting("tone", toneValue);
+            
+            // Smoothly restart activity to apply new theme without heavy flicker
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            startActivity(new Intent(this, this.getClass()));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
     }
 

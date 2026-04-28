@@ -13,19 +13,22 @@ public class App extends Application {
 
     private void applySavedTheme() {
         AppDatabase db = AppDatabase.getInstance(this);
-        new Thread(() -> {
-            String theme = db.appDao().getSetting("theme");
-            int mode;
-            if ("light".equals(theme)) {
-                mode = AppCompatDelegate.MODE_NIGHT_NO;
-            } else if ("dark".equals(theme)) {
-                mode = AppCompatDelegate.MODE_NIGHT_YES;
-            } else {
-                mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-            }
-            // Use runOnUiThread-like behavior or just call it if it's thread safe for static
-            // AppCompatDelegate.setDefaultNightMode is thread-safe for the global setting
-            AppCompatDelegate.setDefaultNightMode(mode);
-        }).start();
+        // We use synchronous reads here because this runs once at startup
+        // and we need these values BEFORE the first activity starts to prevent flicker.
+        String theme = db.appDao().getSetting("theme");
+        
+        int mode;
+        if ("light".equals(theme)) {
+            mode = AppCompatDelegate.MODE_NIGHT_NO;
+        } else if ("dark".equals(theme)) {
+            mode = AppCompatDelegate.MODE_NIGHT_YES;
+        } else {
+            mode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+        }
+        
+        AppCompatDelegate.setDefaultNightMode(mode);
+        
+        // Also pre-cache the tone to avoid the first activity hitting the DB
+        ThemeUtils.getTone(this);
     }
 }

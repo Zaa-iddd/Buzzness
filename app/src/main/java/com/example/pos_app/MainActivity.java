@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,9 +58,18 @@ public class MainActivity extends AppCompatActivity {
             });
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (ThemeUtils.isThemeChanged(this)) {
+            recreate();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.applyTheme(this);
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
-        // REMOVED EdgeToEdge to stop UI from going under status bar
         setContentView(R.layout.activity_main);
         
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -67,13 +77,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(v -> {
+                if (drawerLayout != null) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
+        }
 
-        setupNavigation(navigationView);
+        if (navigationView != null) {
+            setupNavigation(navigationView);
+            navigationView.setCheckedItem(R.id.nav_dashboard);
+        }
 
         db = AppDatabase.getInstance(this);
         
-        // Initialize views
         tvBalance = findViewById(R.id.tv_balance);
         tvSalesCount = findViewById(R.id.tv_sales_count);
         tvProductCount = findViewById(R.id.tv_product_count);
@@ -83,23 +101,36 @@ public class MainActivity extends AppCompatActivity {
         
         setupRecyclerViews();
         setupButtons();
+        applyEntranceAnimations();
+    }
+
+    private void applyEntranceAnimations() {
+        View mainContent = findViewById(R.id.main_linear_layout);
+        if (mainContent != null) {
+            mainContent.setAlpha(0f);
+            mainContent.animate().alpha(1f).setDuration(500).start();
+        }
     }
 
     private void setupNavigation(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_dashboard) {
-                // Already on dashboard
+                // Already here
             } else if (id == R.id.nav_pos) {
                 startActivity(new Intent(this, POSActivity.class));
             } else if (id == R.id.nav_inventory) {
                 startActivity(new Intent(this, InventoryActivity.class));
             } else if (id == R.id.nav_analysis) {
                 startActivity(new Intent(this, AnalysisActivity.class));
+            } else if (id == R.id.nav_notifications) {
+                startActivity(new Intent(this, NotificationsActivity.class));
             } else if (id == R.id.nav_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));
             }
-            drawerLayout.closeDrawer(GravityCompat.START);
+            if (drawerLayout != null) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
             return true;
         });
     }
@@ -127,50 +158,69 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupRecyclerViews() {
         RecyclerView rvInventory = findViewById(R.id.rv_inventory);
-        rvInventory.setLayoutManager(new LinearLayoutManager(this));
-        inventoryAdapter = new ProductAdapter(new ArrayList<>(), this::showEditProductDialog);
-        rvInventory.setAdapter(inventoryAdapter);
+        if (rvInventory != null) {
+            rvInventory.setLayoutManager(new LinearLayoutManager(this));
+            inventoryAdapter = new ProductAdapter(new ArrayList<>(), this::showEditProductDialog);
+            rvInventory.setAdapter(inventoryAdapter);
+        }
 
         RecyclerView rvTrans = findViewById(R.id.rv_transactions);
-        rvTrans.setLayoutManager(new LinearLayoutManager(this));
-        transactionAdapter = new TransactionAdapter(new ArrayList<>());
-        
-        // Add click listener to show receipt
-        transactionAdapter.setOnTransactionClickListener(transaction -> {
-            ReceiptUtils.printTransactionReceipt(this, transaction);
-        });
-
-        rvTrans.setAdapter(transactionAdapter);
+        if (rvTrans != null) {
+            rvTrans.setLayoutManager(new LinearLayoutManager(this));
+            transactionAdapter = new TransactionAdapter(new ArrayList<>());
+            transactionAdapter.setOnTransactionClickListener(transaction -> {
+                ReceiptUtils.printTransactionReceipt(this, transaction);
+            });
+            rvTrans.setAdapter(transactionAdapter);
+        }
     }
 
     private void setupButtons() {
-        findViewById(R.id.btn_add_transaction).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, POSActivity.class);
-            startActivity(intent);
-        });
+        View btnAddTrans = findViewById(R.id.btn_add_transaction);
+        if (btnAddTrans != null) {
+            btnAddTrans.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, POSActivity.class);
+                startActivity(intent);
+            });
+        }
         
-        findViewById(R.id.btn_add_inventory).setOnClickListener(v -> showAddProductDialog());
+        View btnAddInventory = findViewById(R.id.btn_add_inventory);
+        if (btnAddInventory != null) {
+            btnAddInventory.setOnClickListener(v -> showAddProductDialog());
+        }
         
-        findViewById(R.id.cv_balance).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
-            startActivity(intent);
-        });
+        View cvBalance = findViewById(R.id.cv_balance);
+        if (cvBalance != null) {
+            cvBalance.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, AnalysisActivity.class);
+                startActivity(intent);
+            });
+        }
 
-        findViewById(R.id.cv_inventory_summary).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
-            startActivity(intent);
-        });
+        View cvInventorySummary = findViewById(R.id.cv_inventory_summary);
+        if (cvInventorySummary != null) {
+            cvInventorySummary.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
+                startActivity(intent);
+            });
+        }
 
-        btnViewAllTransactions.setOnClickListener(v -> {
-            isHistoryExpanded = !isHistoryExpanded;
-            transactionAdapter.setExpanded(isHistoryExpanded);
-            btnViewAllTransactions.setText(isHistoryExpanded ? "Show Less" : "View All");
-        });
+        if (btnViewAllTransactions != null) {
+            btnViewAllTransactions.setOnClickListener(v -> {
+                isHistoryExpanded = !isHistoryExpanded;
+                if (transactionAdapter != null) {
+                    transactionAdapter.setExpanded(isHistoryExpanded);
+                }
+                btnViewAllTransactions.setText(isHistoryExpanded ? "Show Less" : "View All");
+            });
+        }
 
-        btnViewAllInventory.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
-            startActivity(intent);
-        });
+        if (btnViewAllInventory != null) {
+            btnViewAllInventory.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private void refreshData() {
@@ -179,29 +229,41 @@ public class MainActivity extends AppCompatActivity {
         int productCount = db.appDao().getProductCount();
         int lowStockCount = db.appDao().getLowStockCount(5);
 
-        tvBalance.setText(String.format(Locale.getDefault(), "$%.2f", balance));
-        tvSalesCount.setText(String.valueOf(salesCount));
-        tvProductCount.setText(String.valueOf(productCount));
-        tvLowStock.setText(String.valueOf(lowStockCount));
+        if (tvBalance != null) tvBalance.setText(String.format(Locale.getDefault(), "$%.2f", balance));
+        if (tvSalesCount != null) tvSalesCount.setText(String.valueOf(salesCount));
+        if (tvProductCount != null) tvProductCount.setText(String.valueOf(productCount));
+        if (tvLowStock != null) tvLowStock.setText(String.valueOf(lowStockCount));
 
         List<Product> products = db.appDao().getAllProductsByPopularity();
-        inventoryAdapter.setProducts(products);
-        if (products.size() > 5) {
-            btnViewAllInventory.setVisibility(View.VISIBLE);
-        } else {
-            btnViewAllInventory.setVisibility(View.GONE);
-            inventoryAdapter.setExpanded(true);
+        if (inventoryAdapter != null) {
+            inventoryAdapter.setProducts(products);
+        }
+        if (btnViewAllInventory != null) {
+            if (products.size() > 5) {
+                btnViewAllInventory.setVisibility(View.VISIBLE);
+            } else {
+                btnViewAllInventory.setVisibility(View.GONE);
+                if (inventoryAdapter != null) {
+                    inventoryAdapter.setExpanded(true);
+                }
+            }
         }
         
         List<Transaction> transactions = db.appDao().getAllTransactions();
-        transactionAdapter.setTransactions(transactions);
+        if (transactionAdapter != null) {
+            transactionAdapter.setTransactions(transactions);
+        }
         
-        if (transactions.size() > 5) {
-            btnViewAllTransactions.setVisibility(View.VISIBLE);
-            btnViewAllTransactions.setText(isHistoryExpanded ? "Show Less" : "View All");
-        } else {
-            btnViewAllTransactions.setVisibility(View.GONE);
-            transactionAdapter.setExpanded(true);
+        if (btnViewAllTransactions != null) {
+            if (transactions.size() > 5) {
+                btnViewAllTransactions.setVisibility(View.VISIBLE);
+                btnViewAllTransactions.setText(isHistoryExpanded ? "Show Less" : "View All");
+            } else {
+                btnViewAllTransactions.setVisibility(View.GONE);
+                if (transactionAdapter != null) {
+                    transactionAdapter.setExpanded(true);
+                }
+            }
         }
     }
 
@@ -213,14 +275,16 @@ public class MainActivity extends AppCompatActivity {
         EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
         Button btnScan = dialogView.findViewById(R.id.btn_scan_qr);
 
-        btnScan.setOnClickListener(v -> {
-            currentQrEditText = etQrCode;
-            ScanOptions options = new ScanOptions();
-            options.setCaptureActivity(CustomScannerActivity.class);
-            options.setPrompt("Scan Product QR/Barcode");
-            options.setBeepEnabled(true);
-            barcodeLauncher.launch(options);
-        });
+        if (btnScan != null) {
+            btnScan.setOnClickListener(v -> {
+                currentQrEditText = etQrCode;
+                ScanOptions options = new ScanOptions();
+                options.setCaptureActivity(CustomScannerActivity.class);
+                options.setPrompt("Scan Product QR/Barcode");
+                options.setBeepEnabled(true);
+                barcodeLauncher.launch(options);
+            });
+        }
 
         new AlertDialog.Builder(this)
                 .setTitle("Add New Product")
@@ -251,19 +315,21 @@ public class MainActivity extends AppCompatActivity {
         EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
         Button btnScan = dialogView.findViewById(R.id.btn_scan_qr);
 
-        etName.setText(product.name);
-        etPrice.setText(String.valueOf(product.price));
-        etStock.setText(String.valueOf(product.quantity));
-        etQrCode.setText(product.qrCode);
+        if (etName != null) etName.setText(product.name);
+        if (etPrice != null) etPrice.setText(String.valueOf(product.price));
+        if (etStock != null) etStock.setText(String.valueOf(product.quantity));
+        if (etQrCode != null) etQrCode.setText(product.qrCode);
 
-        btnScan.setOnClickListener(v -> {
-            currentQrEditText = etQrCode;
-            ScanOptions options = new ScanOptions();
-            options.setCaptureActivity(CustomScannerActivity.class);
-            options.setPrompt("Scan Product QR/Barcode");
-            options.setBeepEnabled(true);
-            barcodeLauncher.launch(options);
-        });
+        if (btnScan != null) {
+            btnScan.setOnClickListener(v -> {
+                currentQrEditText = etQrCode;
+                ScanOptions options = new ScanOptions();
+                options.setCaptureActivity(CustomScannerActivity.class);
+                options.setPrompt("Scan Product QR/Barcode");
+                options.setBeepEnabled(true);
+                barcodeLauncher.launch(options);
+            });
+        }
 
         new AlertDialog.Builder(this)
                 .setTitle("Edit Product")

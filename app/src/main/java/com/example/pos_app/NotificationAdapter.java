@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pos_app.data.Product;
 import java.util.List;
@@ -32,11 +31,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         
         if (product.quantity == 0) {
             holder.tvStatus.setText("Out of Stock");
-            holder.statusIndicator.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_red_dark));
             holder.tvQuantity.setText("Empty");
+            // Indicator and colors are handled by theme attributes in XML (?attr/colorError)
         } else {
             holder.tvStatus.setText("Low Stock");
-            holder.statusIndicator.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), android.R.color.holo_orange_dark));
             holder.tvQuantity.setText(product.quantity + " left");
         }
     }

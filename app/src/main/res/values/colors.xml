@@ -3,45 +3,79 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Warm Color Palette - Light -->
-    <color name="primary_warm">#9C4300</color>
-    <color name="onPrimary_warm">#FFFFFF</color>
-    <color name="primaryContainer_warm">#FFDBC9</color>
-    <color name="onPrimaryContainer_warm">#331200</color>
+    <!-- Theme 1: Elegant Gold -->
+    <color name="gold_primary">#855300</color>
+    <color name="gold_primary_dark">#FFB951</color>
+    <color name="gold_background_dark">#1F1B16</color>
+    <color name="gold_container">#FFDDB3</color>
+    <color name="gold_container_dark">#653D00</color>
 
-    <color name="secondary_warm">#765848</color>
-    <color name="onSecondary_warm">#FFFFFF</color>
-    <color name="secondaryContainer_warm">#FFDBC9</color>
-    <color name="onSecondaryContainer_warm">#2B160B</color>
+    <!-- Theme 2: Ocean Blue -->
+    <color name="blue_primary">#0061A4</color>
+    <color name="blue_primary_dark">#9ECAFF</color>
+    <color name="blue_background_dark">#001C31</color>
+    <color name="blue_container">#D1E4FF</color>
+    <color name="blue_container_dark">#004976</color>
 
-    <color name="tertiary_warm">#646032</color>
-    <color name="onTertiary_warm">#FFFFFF</color>
-    <color name="tertiaryContainer_warm">#EBE4AA</color>
-    <color name="onTertiaryContainer_warm">#1E1C00</color>
+    <!-- Theme 3: Nature Green -->
+    <color name="green_primary">#2F6B25</color>
+    <color name="green_primary_dark">#96D786</color>
+    <color name="green_background_dark">#0C1E0A</color>
+    <color name="green_container">#B1F39D</color>
+    <color name="green_container_dark">#16520F</color>
 
-    <color name="background_warm">#FFF8F6</color>
-    <color name="onBackground_warm">#231A17</color>
-    <color name="surface_warm">#FFF8F6</color>
-    <color name="onSurface_warm">#231A17</color>
+    <!-- Theme 4: Midnight Purple -->
+    <color name="purple_primary">#7B4E7E</color>
+    <color name="purple_primary_dark">#EBBAEE</color>
+    <color name="purple_background_dark">#1E1A1E</color>
+    <color name="purple_container">#FFD6FA</color>
+    <color name="purple_container_dark">#613764</color>
 
-    <!-- Warm Color Palette - Dark -->
-    <color name="primary_warm_dark">#FFB596</color>
-    <color name="onPrimary_warm_dark">#542100</color>
-    <color name="primaryContainer_warm_dark">#773100</color>
-    <color name="onPrimaryContainer_warm_dark">#FFDBC9</color>
+    <!-- Base / Dynamic Colors -->
+    <color name="primary">#855300</color>
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="primaryContainer">#FFDDB3</color>
+    <color name="onPrimaryContainer">#291800</color>
 
-    <color name="secondary_warm_dark">#E6BEAC</color>
-    <color name="onSecondary_warm_dark">#432B1E</color>
-    <color name="secondaryContainer_warm_dark">#5C4132</color>
-    <color name="onSecondaryContainer_warm_dark">#FFDBC9</color>
+    <color name="secondary">#705B40</color>
+    <color name="onSecondary">#FFFFFF</color>
 
-    <color name="tertiary_warm_dark">#CEC890</color>
-    <color name="onTertiary_warm_dark">#353107</color>
-    <color name="tertiaryContainer_warm_dark">#4C481C</color>
-    <color name="onTertiaryContainer_warm_dark">#EBE4AA</color>
+    <color name="error">#BA1A1A</color>
+    <color name="onError">#FFFFFF</color>
+    <color name="errorContainer">#FFDAD6</color>
+    <color name="onErrorContainer">#410002</color>
 
-    <color name="background_warm_dark">#231A17</color>
-    <color name="onBackground_warm_dark">#F0DFD8</color>
-    <color name="surface_warm_dark">#231A17</color>
-    <color name="onSurface_warm_dark">#F0DFD8</color>
+    <color name="background">#FFFBFF</color>
+    <color name="onBackground">#1F1B16</color>
+    <color name="surface">#FFFBFF</color>
+    <color name="onSurface">#1F1B16</color>
+    <color name="surfaceVariant">#F0E0CF</color>
+    <color name="onSurfaceVariant">#4F4539</color>
+    <color name="outline">#817567</color>
+    <color name="outlineVariant">#D3C4B4</color>
+
+    <!-- Dark Mode Colors (Global Names) -->
+    <color name="onPrimary_dark">#000000</color>
+    <color name="onPrimaryContainer_dark">#FFFFFF</color>
+    <color name="onBackground_dark">#EAE1D9</color>
+    <color name="onSurface_dark">#EAE1D9</color>
+    <color name="surfaceVariant_dark">#4F4539</color>
+    <color name="onSurfaceVariant_dark">#D3C4B4</color>
+    <color name="outline_dark">#9C8F80</color>
+    <color name="outlineVariant_dark">#4F4539</color>
+
+    <!-- Dark Mode Fallbacks -->
+    <color name="secondary_dark">#DDC2A1</color>
+    <color name="onSecondary_dark">#3E2D16</color>
+    <color name="secondaryContainer_dark">#56442A</color>
+    <color name="onSecondaryContainer_dark">#FBDEBC</color>
+    <color name="tertiary_dark">#B9CEA1</color>
+    <color name="onTertiary_dark">#253515</color>
+    <color name="tertiaryContainer_dark">#3B4C2A</color>
+    <color name="onTertiaryContainer_dark">#D5EABB</color>
+
+    <color name="error_dark">#FFB4AB</color>
+    <color name="onError_dark">#690005</color>
+    <color name="errorContainer_dark">#93000A</color>
+    <color name="onErrorContainer_dark">#FFDAD6</color>
 </resources>

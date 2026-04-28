@@ -1,25 +1,78 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme for Dark Mode. -->
     <style name="Base.Theme.POS_App" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/primary_warm_dark</item>
-        <item name="colorOnPrimary">@color/onPrimary_warm_dark</item>
-        <item name="colorPrimaryContainer">@color/primaryContainer_warm_dark</item>
-        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer_warm_dark</item>
+        <!-- Default Dark Mode Colors (Gold Tone) -->
+        <item name="colorPrimary">@color/gold_primary_dark</item>
+        <item name="colorOnPrimary">@color/onPrimary_dark</item>
+        <item name="colorPrimaryContainer">@color/gold_container_dark</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer_dark</item>
 
-        <item name="colorSecondary">@color/secondary_warm_dark</item>
-        <item name="colorOnSecondary">@color/onSecondary_warm_dark</item>
-        <item name="colorSecondaryContainer">@color/secondaryContainer_warm_dark</item>
-        <item name="colorOnSecondaryContainer">@color/onSecondaryContainer_warm_dark</item>
+        <item name="colorSecondary">@color/secondary_dark</item>
+        <item name="colorOnSecondary">@color/onSecondary_dark</item>
+        <item name="colorSecondaryContainer">@color/secondaryContainer_dark</item>
+        <item name="colorOnSecondaryContainer">@color/onSecondaryContainer_dark</item>
 
-        <item name="colorTertiary">@color/tertiary_warm_dark</item>
-        <item name="colorOnTertiary">@color/onTertiary_warm_dark</item>
-        <item name="colorTertiaryContainer">@color/tertiaryContainer_warm_dark</item>
-        <item name="colorOnTertiaryContainer">@color/onTertiaryContainer_warm_dark</item>
+        <item name="colorTertiary">@color/tertiary_dark</item>
+        <item name="colorOnTertiary">@color/onTertiary_dark</item>
+        <item name="colorTertiaryContainer">@color/tertiaryContainer_dark</item>
+        <item name="colorOnTertiaryContainer">@color/onTertiaryContainer_dark</item>
 
-        <item name="android:windowBackground">@color/background_warm_dark</item>
-        <item name="colorOnBackground">@color/onBackground_warm_dark</item>
-        <item name="colorSurface">@color/surface_warm_dark</item>
-        <item name="colorOnSurface">@color/onSurface_warm_dark</item>
+        <item name="android:windowBackground">@color/gold_background_dark</item>
+        <item name="colorOnBackground">@color/onBackground_dark</item>
+        <item name="colorSurface">@color/gold_background_dark</item>
+        <item name="colorOnSurface">@color/onSurface_dark</item>
+        <item name="colorSurfaceVariant">@color/surfaceVariant_dark</item>
+        <item name="colorOnSurfaceVariant">@color/onSurfaceVariant_dark</item>
+
+        <item name="colorOutline">@color/outline_dark</item>
+        <item name="colorOutlineVariant">@color/outlineVariant_dark</item>
+
+        <item name="colorError">@color/error_dark</item>
+        <item name="colorOnError">@color/onError_dark</item>
+        <item name="colorErrorContainer">@color/errorContainer_dark</item>
+        <item name="colorOnErrorContainer">@color/onErrorContainer_dark</item>
+
+        <!-- System Bar Customizations -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
+
+    <!-- Dark Mode Theme Overlays for different tones -->
+    <style name="Theme.POS_App.Gold" parent="Base.Theme.POS_App">
+        <item name="colorPrimary">@color/gold_primary_dark</item>
+        <item name="colorPrimaryContainer">@color/gold_container_dark</item>
+        <item name="android:windowBackground">@color/gold_background_dark</item>
+        <item name="colorSurface">@color/gold_background_dark</item>
+        <item name="colorOnPrimary">#472A00</item>
+        <item name="colorOnPrimaryContainer">#FFDDB3</item>
+    </style>
+
+    <style name="Theme.POS_App.Blue" parent="Base.Theme.POS_App">
+        <item name="colorPrimary">@color/blue_primary_dark</item>
+        <item name="colorPrimaryContainer">@color/blue_container_dark</item>
+        <item name="android:windowBackground">@color/blue_background_dark</item>
+        <item name="colorSurface">@color/blue_background_dark</item>
+        <item name="colorOnPrimary">#003258</item>
+        <item name="colorOnPrimaryContainer">#D1E4FF</item>
+    </style>
+
+    <style name="Theme.POS_App.Green" parent="Base.Theme.POS_App">
+        <item name="colorPrimary">@color/green_primary_dark</item>
+        <item name="colorPrimaryContainer">@color/green_container_dark</item>
+        <item name="android:windowBackground">@color/green_background_dark</item>
+        <item name="colorSurface">@color/green_background_dark</item>
+        <item name="colorOnPrimary">#00390A</item>
+        <item name="colorOnPrimaryContainer">#B1F39D</item>
+    </style>
+
+    <style name="Theme.POS_App.Purple" parent="Base.Theme.POS_App">
+        <item name="colorPrimary">@color/purple_primary_dark</item>
+        <item name="colorPrimaryContainer">@color/purple_container_dark</item>
+        <item name="android:windowBackground">@color/purple_background_dark</item>
+        <item name="colorSurface">@color/purple_background_dark</item>
+        <item name="colorOnPrimary">#491D50</item>
+        <item name="colorOnPrimaryContainer">#FFD6FA</item>
+    </style>
+
+    <style name="Theme.POS_App" parent="Base.Theme.POS_App" />
 </resources>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,12 +32,23 @@ public class InventoryActivity extends AppCompatActivity {
     private AppDatabase db;
     private ProductAdapter adapter;
     private TabLayout tabLayout;
+    private RecyclerView rvInventory;
     private List<Product> allProducts = new ArrayList<>();
     private String currentQuery = "";
     private static final int LOW_STOCK_THRESHOLD = 5;
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (ThemeUtils.isThemeChanged(this)) {
+            recreate();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.applyTheme(this);
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
 
@@ -48,70 +60,88 @@ public class InventoryActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(this);
         tabLayout = findViewById(R.id.tab_layout);
-        RecyclerView rvInventory = findViewById(R.id.rv_inventory);
+        rvInventory = findViewById(R.id.rv_inventory);
         TextInputEditText etSearch = findViewById(R.id.et_search);
 
-        rvInventory.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ProductAdapter(new ArrayList<>(), this::showEditProductDialog);
-        adapter.setExpanded(true); // Show all in management screen
-        rvInventory.setAdapter(adapter);
+        if (rvInventory != null) {
+            rvInventory.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new ProductAdapter(new ArrayList<>(), this::showEditProductDialog);
+            adapter.setExpanded(true); 
+            rvInventory.setAdapter(adapter);
+        }
 
-        findViewById(R.id.fab_add_product).setOnClickListener(v -> showAddProductDialog());
+        View fabAddProduct = findViewById(R.id.fab_add_product);
+        if (fabAddProduct != null) {
+            fabAddProduct.setOnClickListener(v -> showAddProductDialog());
+        }
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                applyFilter(tab.getPosition());
-            }
+        if (tabLayout != null) {
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    applyFilter(tab.getPosition());
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {}
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
-        });
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {}
+            });
+        }
 
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        if (etSearch != null) {
+            etSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                currentQuery = s.toString();
-                applyFilter(tabLayout.getSelectedTabPosition());
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    currentQuery = s.toString();
+                    if (tabLayout != null) {
+                        applyFilter(tabLayout.getSelectedTabPosition());
+                    } else {
+                        applyFilter(0);
+                    }
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+        }
 
         loadData();
     }
 
     private void loadData() {
         allProducts = db.appDao().getAllProductsByPopularity();
-        applyFilter(tabLayout.getSelectedTabPosition());
+        if (tabLayout != null) {
+            applyFilter(tabLayout.getSelectedTabPosition());
+        } else {
+            applyFilter(0);
+        }
     }
 
     private void applyFilter(int position) {
         List<Product> displayList = allProducts.stream()
-                .filter(p -> p.name.toLowerCase().contains(currentQuery.toLowerCase()))
+                .filter(p -> p.name != null && p.name.toLowerCase().contains(currentQuery.toLowerCase()))
                 .collect(Collectors.toList());
 
         if (position == 0) {
-            // All Products - sort alphabetically
-            Collections.sort(displayList, (p1, p2) -> p1.name.compareToIgnoreCase(p2.name));
-        } else if (position == 1) {
-            // Top Seller - already sorted by salesCount DESC from DB
-            // (No extra filtering needed, displayList is derived from allProducts which is pre-sorted)
+            Collections.sort(displayList, (p1, p2) -> {
+                if (p1.name == null) return 1;
+                if (p2.name == null) return -1;
+                return p1.name.compareToIgnoreCase(p2.name);
+            });
         } else if (position == 2) {
-            // Low Stock
             displayList = displayList.stream()
                     .filter(p -> p.quantity < LOW_STOCK_THRESHOLD)
                     .collect(Collectors.toList());
         }
 
-        adapter.setProducts(displayList);
+        if (adapter != null) {
+            adapter.setProducts(displayList);
+        }
     }
 
     private void showAddProductDialog() {
@@ -144,9 +174,9 @@ public class InventoryActivity extends AppCompatActivity {
         EditText etPrice = dialogView.findViewById(R.id.et_price);
         EditText etStock = dialogView.findViewById(R.id.et_stock);
 
-        etName.setText(product.name);
-        etPrice.setText(String.valueOf(product.price));
-        etStock.setText(String.valueOf(product.quantity));
+        if (etName != null) etName.setText(product.name);
+        if (etPrice != null) etPrice.setText(String.valueOf(product.price));
+        if (etStock != null) etStock.setText(String.valueOf(product.quantity));
 
         new AlertDialog.Builder(this)
                 .setTitle("Edit Product")

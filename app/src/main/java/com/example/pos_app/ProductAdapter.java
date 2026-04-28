@@ -44,10 +44,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        if (products == null || position >= products.size()) return;
         Product product = products.get(position);
-        holder.tvName.setText(product.name);
-        holder.tvStock.setText(String.format(Locale.getDefault(), "Stock: %d", product.quantity));
-        holder.tvPrice.setText(String.format(Locale.getDefault(), "$%.2f", product.price));
+        
+        // Use null checks to prevent crashes if IDs are missing from the layout
+        if (holder.tvName != null) {
+            holder.tvName.setText(product.name != null ? product.name : "Unknown");
+        }
+        if (holder.tvStock != null) {
+            holder.tvStock.setText(String.format(Locale.getDefault(), "Stock: %d", product.quantity));
+        }
+        if (holder.tvPrice != null) {
+            holder.tvPrice.setText(String.format(Locale.getDefault(), "$%.2f", product.price));
+        }
         
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

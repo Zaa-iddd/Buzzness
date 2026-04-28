@@ -4,22 +4,26 @@
         <item
             android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Dashboard" />
+            android:title="@string/nav_dashboard" />
         <item
             android:id="@+id/nav_pos"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Point of Sale" />
+            android:title="@string/nav_pos" />
         <item
             android:id="@+id/nav_inventory"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Inventory" />
+            android:title="@string/nav_inventory" />
         <item
             android:id="@+id/nav_analysis"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Sales Analysis" />
+            android:title="@string/nav_analysis" />
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/nav_notifications" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_launcher_foreground"
-            android:title="Settings" />
+            android:title="@string/nav_settings" />
     </group>
 </menu>

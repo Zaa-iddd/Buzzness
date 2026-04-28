@@ -3,6 +3,7 @@ package com.example.pos_app;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +22,17 @@ public class NotificationsActivity extends AppCompatActivity {
     private NotificationAdapter adapter;
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (ThemeUtils.isThemeChanged(this)) {
+            recreate();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeUtils.applyTheme(this);
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
@@ -47,10 +58,10 @@ public class NotificationsActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 if (alerts.isEmpty()) {
-                    tvEmpty.setVisibility(View.VISIBLE);
+                    findViewById(R.id.layout_empty_state).setVisibility(View.VISIBLE);
                     rvNotifications.setVisibility(View.GONE);
                 } else {
-                    tvEmpty.setVisibility(View.GONE);
+                    findViewById(R.id.layout_empty_state).setVisibility(View.GONE);
                     rvNotifications.setVisibility(View.VISIBLE);
                     adapter = new NotificationAdapter(alerts);
                     rvNotifications.setAdapter(adapter);

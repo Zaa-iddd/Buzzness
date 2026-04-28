@@ -30,7 +30,10 @@ import com.example.pos_app.data.CartItem;
 import com.example.pos_app.data.Product;
 import com.example.pos_app.data.Transaction;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 import java.io.FileOutputStream;
@@ -47,9 +50,17 @@ public class POSActivity extends AppCompatActivity {
     private List<CartItem> cartItems = new ArrayList<>();
     private ProductAdapter productAdapter;
     private CartAdapter cartAdapter;
+    
+    private TextView tvSubtotal;
     private TextView tvTotal;
+    private MaterialSwitch swDiscount;
+    private TextInputLayout tilDiscount;
+    private TextInputEditText etDiscount;
     private TextInputEditText etAmountPaid;
+    
+    private double subtotal = 0.0;
     private double totalAmount = 0.0;
+    private double discountPercent = 0.0;
 
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
@@ -61,12 +72,24 @@ public class POSActivity extends AppCompatActivity {
             });
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (ThemeUtils.isThemeChanged(this)) {
+            recreate();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        ThemeUtils.applyTheme(this);
         EdgeToEdge.enable(this);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pos);
 
-        // Lower UI manually using insets to match MainActivity
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         AppBarLayout appBarLayout = findViewById(R.id.appBarLayout);
         if (appBarLayout != null) {
             ViewCompat.setOnApplyWindowInsetsListener(appBarLayout, (v, insets) -> {
@@ -77,16 +100,50 @@ public class POSActivity extends AppCompatActivity {
         }
 
         db = AppDatabase.getInstance(this);
+        tvSubtotal = findViewById(R.id.tv_subtotal);
         tvTotal = findViewById(R.id.tv_total);
+        swDiscount = findViewById(R.id.switch_discount);
+        tilDiscount = findViewById(R.id.til_discount);
+        etDiscount = findViewById(R.id.et_discount);
         etAmountPaid = findViewById(R.id.et_amount_paid);
 
         setupRecyclerViews();
         setupSearch();
+        setupDiscountLogic();
         loadProducts();
 
         findViewById(R.id.btn_checkout).setOnClickListener(v -> handleCheckout());
-        findViewById(R.id.toolbar).setOnClickListener(v -> finish());
         findViewById(R.id.btn_qr_scan).setOnClickListener(v -> startScanning());
+    }
+
+    private void setupDiscountLogic() {
+        swDiscount.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            tilDiscount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            if (!isChecked) {
+                etDiscount.setText("");
+                discountPercent = 0;
+            }
+            updateCart();
+        });
+
+        etDiscount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    discountPercent = s.toString().isEmpty() ? 0 : Double.parseDouble(s.toString());
+                    if (discountPercent > 100) discountPercent = 100;
+                } catch (NumberFormatException e) {
+                    discountPercent = 0;
+                }
+                updateCart();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private void startScanning() {
@@ -208,10 +265,15 @@ public class POSActivity extends AppCompatActivity {
 
     private void updateCart() {
         cartAdapter.notifyDataSetChanged();
-        totalAmount = 0;
+        subtotal = 0;
         for (CartItem item : cartItems) {
-            totalAmount += item.getTotalPrice();
+            subtotal += item.getTotalPrice();
         }
+        
+        double discount = subtotal * (discountPercent / 100.0);
+        totalAmount = subtotal - discount;
+
+        tvSubtotal.setText(String.format(Locale.getDefault(), "$%.2f", subtotal));
         tvTotal.setText(String.format(Locale.getDefault(), "$%.2f", totalAmount));
     }
 
@@ -242,6 +304,8 @@ public class POSActivity extends AppCompatActivity {
 
         final double change = amountPaid - totalAmount;
         final List<CartItem> itemsToPrint = new ArrayList<>(cartItems);
+        final double finalSubtotal = subtotal;
+        final double finalDiscountPercent = discountPercent;
         final double finalTotal = totalAmount;
         final double finalPaid = amountPaid;
 
@@ -254,15 +318,20 @@ public class POSActivity extends AppCompatActivity {
             itemsDescription.append(item.product.name).append(" x").append(item.quantity).append(", ");
         }
 
+        String desc = "POS Sale: " + itemsDescription.toString();
+        if (finalDiscountPercent > 0) {
+            desc += String.format(Locale.getDefault(), " (Discount %.0f%%)", finalDiscountPercent);
+        }
+
         Transaction transaction = new Transaction(
-                "POS Sale: " + itemsDescription.toString(),
+                desc,
                 totalAmount,
                 System.currentTimeMillis(),
                 ""
         );
         db.appDao().insertTransaction(transaction);
 
-        printReceipt(itemsToPrint, finalTotal, finalPaid, change);
+        printReceipt(itemsToPrint, finalSubtotal, finalDiscountPercent, finalTotal, finalPaid, change);
 
         cartItems.clear();
         etAmountPaid.setText("");
@@ -271,7 +340,7 @@ public class POSActivity extends AppCompatActivity {
         Toast.makeText(this, "Transaction Complete. Change: " + String.format(Locale.getDefault(), "$%.2f", change), Toast.LENGTH_LONG).show();
     }
 
-    private void printReceipt(final List<CartItem> items, final double total, final double paid, final double change) {
+    private void printReceipt(final List<CartItem> items, final double subtotal, final double discountPercent, final double total, final double paid, final double change) {
         PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
         String jobName = getString(R.string.app_name) + " Receipt";
 
@@ -320,6 +389,17 @@ public class POSActivity extends AppCompatActivity {
                 
                 y += 10;
                 canvas.drawLine(20, y, 280, y, paint);
+                
+                if (discountPercent > 0) {
+                    y += 20;
+                    canvas.drawText("Subtotal:", 20, y, paint);
+                    canvas.drawText(String.format(Locale.getDefault(), "$%.2f", subtotal), 210, y, paint);
+                    
+                    y += 20;
+                    canvas.drawText(String.format(Locale.getDefault(), "Discount (%.0f%%):", discountPercent), 20, y, paint);
+                    canvas.drawText(String.format(Locale.getDefault(), "-$%.2f", subtotal * (discountPercent/100.0)), 210, y, paint);
+                }
+
                 y += 20;
                 paint.setFakeBoldText(true);
                 paint.setTextSize(14f);
