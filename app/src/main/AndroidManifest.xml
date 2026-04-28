@@ -34,6 +34,10 @@
             android:exported="false"
             android:label="Point of Sale" />
         <activity
+            android:name=".HistoryActivity"
+            android:exported="false"
+            android:label="Transaction History" />
+        <activity
             android:name=".CustomScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"

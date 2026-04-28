@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, POSActivity.class));
             } else if (id == R.id.nav_inventory) {
                 startActivity(new Intent(this, InventoryActivity.class));
+            } else if (id == R.id.nav_history) {
+                startActivity(new Intent(this, HistoryActivity.class));
             } else if (id == R.id.nav_analysis) {
                 startActivity(new Intent(this, AnalysisActivity.class));
             } else if (id == R.id.nav_notifications) {
@@ -197,6 +199,14 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        View cvSales = findViewById(R.id.cv_sales);
+        if (cvSales != null) {
+            cvSales.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(intent);
+            });
+        }
+
         View cvInventorySummary = findViewById(R.id.cv_inventory_summary);
         if (cvInventorySummary != null) {
             cvInventorySummary.setOnClickListener(v -> {
@@ -207,11 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (btnViewAllTransactions != null) {
             btnViewAllTransactions.setOnClickListener(v -> {
-                isHistoryExpanded = !isHistoryExpanded;
-                if (transactionAdapter != null) {
-                    transactionAdapter.setExpanded(isHistoryExpanded);
-                }
-                btnViewAllTransactions.setText(isHistoryExpanded ? "Show Less" : "View All");
+                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
             });
         }
 
@@ -257,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         if (btnViewAllTransactions != null) {
             if (transactions.size() > 5) {
                 btnViewAllTransactions.setVisibility(View.VISIBLE);
-                btnViewAllTransactions.setText(isHistoryExpanded ? "Show Less" : "View All");
+                btnViewAllTransactions.setText("View All");
             } else {
                 btnViewAllTransactions.setVisibility(View.GONE);
                 if (transactionAdapter != null) {
