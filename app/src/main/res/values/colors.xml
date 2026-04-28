@@ -3,48 +3,155 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Theme 1: Elegant Gold -->
+    <!-- Theme 1: Elegant Gold (Light) -->
     <color name="gold_primary">#855300</color>
-    <color name="gold_primary_dark">#FFB951</color>
-    <color name="gold_background_dark">#1F1B16</color>
+    <color name="gold_onPrimary">#FFFFFF</color>
     <color name="gold_container">#FFDDB3</color>
+    <color name="gold_onContainer">#291800</color>
+    <color name="gold_secondary">#705B40</color>
+    <color name="gold_onSecondary">#FFFFFF</color>
+    <color name="gold_secondaryContainer">#FBDEBC</color>
+    <color name="gold_onSecondaryContainer">#271904</color>
+    <color name="gold_tertiary">#52643F</color>
+    <color name="gold_onTertiary">#FFFFFF</color>
+    <color name="gold_tertiaryContainer">#D5EABB</color>
+    <color name="gold_onTertiaryContainer">#102004</color>
+
+    <!-- Theme 1 Dark -->
+    <color name="gold_primary_dark">#FFB951</color>
+    <color name="gold_onPrimary_dark">#472A00</color>
     <color name="gold_container_dark">#653D00</color>
+    <color name="gold_onContainer_dark">#FFDDB3</color>
+    <color name="gold_secondary_dark">#DDC2A1</color>
+    <color name="gold_onSecondary_dark">#3E2D16</color>
+    <color name="gold_secondaryContainer_dark">#56442A</color>
+    <color name="gold_onSecondaryContainer_dark">#FBDEBC</color>
+    <color name="gold_tertiary_dark">#B9CEA1</color>
+    <color name="gold_onTertiary_dark">#253515</color>
+    <color name="gold_tertiaryContainer_dark">#3B4C2A</color>
+    <color name="gold_onTertiaryContainer_dark">#D5EABB</color>
+    <color name="gold_background_dark">#1F1B16</color>
 
-    <!-- Theme 2: Ocean Blue -->
+    <!-- Theme 2: Ocean Blue (Light) -->
     <color name="blue_primary">#0061A4</color>
-    <color name="blue_primary_dark">#9ECAFF</color>
-    <color name="blue_background_dark">#001C31</color>
+    <color name="blue_onPrimary">#FFFFFF</color>
     <color name="blue_container">#D1E4FF</color>
-    <color name="blue_container_dark">#004976</color>
+    <color name="blue_onContainer">#001D36</color>
+    <color name="blue_secondary">#535F70</color>
+    <color name="blue_onSecondary">#FFFFFF</color>
+    <color name="blue_secondaryContainer">#D7E3F7</color>
+    <color name="blue_onSecondaryContainer">#101C2B</color>
+    <color name="blue_tertiary">#6B5778</color>
+    <color name="blue_onTertiary">#FFFFFF</color>
+    <color name="blue_tertiaryContainer">#F2DAFF</color>
+    <color name="blue_onTertiaryContainer">#251431</color>
 
-    <!-- Theme 3: Nature Green -->
+    <!-- Theme 2 Dark -->
+    <color name="blue_primary_dark">#9ECAFF</color>
+    <color name="blue_onPrimary_dark">#003258</color>
+    <color name="blue_container_dark">#00497D</color>
+    <color name="blue_onContainer_dark">#D1E4FF</color>
+    <color name="blue_secondary_dark">#BBC7DB</color>
+    <color name="blue_onSecondary_dark">#253140</color>
+    <color name="blue_secondaryContainer_dark">#3B4758</color>
+    <color name="blue_onSecondaryContainer_dark">#D7E3F7</color>
+    <color name="blue_tertiary_dark">#D6BEE4</color>
+    <color name="blue_onTertiary_dark">#3B2947</color>
+    <color name="blue_tertiaryContainer_dark">#523F5F</color>
+    <color name="blue_onTertiaryContainer_dark">#F2DAFF</color>
+    <color name="blue_background_dark">#1A1C1E</color>
+
+    <!-- Theme 3: Nature Green (Light) -->
     <color name="green_primary">#2F6B25</color>
-    <color name="green_primary_dark">#96D786</color>
-    <color name="green_background_dark">#0C1E0A</color>
+    <color name="green_onPrimary">#FFFFFF</color>
     <color name="green_container">#B1F39D</color>
-    <color name="green_container_dark">#16520F</color>
+    <color name="green_onContainer">#002200</color>
+    <color name="green_secondary">#53634F</color>
+    <color name="green_onSecondary">#FFFFFF</color>
+    <color name="green_secondaryContainer">#D6E8CD</color>
+    <color name="green_onSecondaryContainer">#111F0F</color>
+    <color name="green_tertiary">#38656A</color>
+    <color name="green_onTertiary">#FFFFFF</color>
+    <color name="green_tertiaryContainer">#BCEBF0</color>
+    <color name="green_onTertiaryContainer">#002022</color>
 
-    <!-- Theme 4: Midnight Purple -->
+    <!-- Theme 3 Dark -->
+    <color name="green_primary_dark">#96D786</color>
+    <color name="green_onPrimary_dark">#003A00</color>
+    <color name="green_container_dark">#135200</color>
+    <color name="green_onContainer_dark">#B1F39D</color>
+    <color name="green_secondary_dark">#B9CCB2</color>
+    <color name="green_onSecondary_dark">#263423</color>
+    <color name="green_secondaryContainer_dark">#3C4B38</color>
+    <color name="green_onSecondaryContainer_dark">#D6E8CD</color>
+    <color name="green_tertiary_dark">#A0CFD4</color>
+    <color name="green_onTertiary_dark">#00363B</color>
+    <color name="green_tertiaryContainer_dark">#1F4D52</color>
+    <color name="green_onTertiaryContainer_dark">#BCEBF0</color>
+    <color name="green_background_dark">#1A1C19</color>
+
+    <!-- Theme 4: Midnight Purple (Light) -->
     <color name="purple_primary">#7B4E7E</color>
-    <color name="purple_primary_dark">#EBBAEE</color>
-    <color name="purple_background_dark">#1E1A1E</color>
+    <color name="purple_onPrimary">#FFFFFF</color>
     <color name="purple_container">#FFD6FA</color>
+    <color name="purple_onContainer">#310B37</color>
+    <color name="purple_secondary">#6B586B</color>
+    <color name="purple_onSecondary">#FFFFFF</color>
+    <color name="purple_secondaryContainer">#F3DAEE</color>
+    <color name="purple_onSecondaryContainer">#251626</color>
+    <color name="purple_tertiary">#82524A</color>
+    <color name="purple_onTertiary">#FFFFFF</color>
+    <color name="purple_tertiaryContainer">#FFDAD5</color>
+    <color name="purple_onTertiaryContainer">#33110C</color>
+
+    <!-- Theme 4 Dark -->
+    <color name="purple_primary_dark">#EBBAEE</color>
+    <color name="purple_onPrimary_dark">#491D50</color>
     <color name="purple_container_dark">#613764</color>
+    <color name="purple_onContainer_dark">#FFD6FA</color>
+    <color name="purple_secondary_dark">#D6BED2</color>
+    <color name="purple_onSecondary_dark">#3B2B3C</color>
+    <color name="purple_secondaryContainer_dark">#524153</color>
+    <color name="purple_onSecondaryContainer_dark">#F3DAEE</color>
+    <color name="purple_tertiary_dark">#F5B8AD</color>
+    <color name="purple_onTertiary_dark">#4D251F</color>
+    <color name="purple_tertiaryContainer_dark">#673B34</color>
+    <color name="purple_onTertiaryContainer_dark">#FFDAD5</color>
+    <color name="purple_background_dark">#1D1B1E</color>
 
-    <!-- Base / Dynamic Colors -->
-    <color name="primary">#855300</color>
-    <color name="onPrimary">#FFFFFF</color>
-    <color name="primaryContainer">#FFDDB3</color>
-    <color name="onPrimaryContainer">#291800</color>
+    <!-- Core Dynamic Mappings (Required for Theme Linking) -->
+    <color name="primary">@color/gold_primary</color>
+    <color name="onPrimary">@color/white</color>
+    <color name="primaryContainer">@color/gold_container</color>
+    <color name="onPrimaryContainer">@color/gold_onContainer</color>
 
-    <color name="secondary">#705B40</color>
-    <color name="onSecondary">#FFFFFF</color>
+    <color name="secondary">@color/gold_secondary</color>
+    <color name="onSecondary">@color/white</color>
+    <color name="secondaryContainer">@color/gold_secondaryContainer</color>
+    <color name="onSecondaryContainer">@color/gold_onSecondaryContainer</color>
 
-    <color name="error">#BA1A1A</color>
-    <color name="onError">#FFFFFF</color>
-    <color name="errorContainer">#FFDAD6</color>
-    <color name="onErrorContainer">#410002</color>
+    <color name="tertiary">@color/gold_tertiary</color>
+    <color name="onTertiary">@color/white</color>
+    <color name="tertiaryContainer">@color/gold_tertiaryContainer</color>
+    <color name="onTertiaryContainer">@color/gold_onTertiaryContainer</color>
 
+    <!-- Core Dark Mode Mappings -->
+    <color name="primary_dark">@color/gold_primary_dark</color>
+    <color name="onPrimary_dark">@color/gold_onPrimary_dark</color>
+    <color name="primaryContainer_dark">@color/gold_container_dark</color>
+    <color name="onPrimaryContainer_dark">@color/gold_onContainer_dark</color>
+
+    <color name="secondary_dark">@color/gold_secondary_dark</color>
+    <color name="onSecondary_dark">@color/gold_onSecondary_dark</color>
+    <color name="secondaryContainer_dark">@color/gold_secondaryContainer_dark</color>
+    <color name="onSecondaryContainer_dark">@color/gold_onSecondaryContainer_dark</color>
+
+    <color name="tertiary_dark">@color/gold_tertiary_dark</color>
+    <color name="onTertiary_dark">@color/gold_onTertiary_dark</color>
+    <color name="tertiaryContainer_dark">@color/gold_tertiaryContainer_dark</color>
+    <color name="onTertiaryContainer_dark">@color/gold_onTertiaryContainer_dark</color>
+
+    <!-- Common UI Elements -->
     <color name="background">#FFFBFF</color>
     <color name="onBackground">#1F1B16</color>
     <color name="surface">#FFFBFF</color>
@@ -54,26 +161,20 @@
     <color name="outline">#817567</color>
     <color name="outlineVariant">#D3C4B4</color>
 
-    <!-- Dark Mode Colors (Global Names) -->
-    <color name="onPrimary_dark">#000000</color>
-    <color name="onPrimaryContainer_dark">#FFFFFF</color>
+    <color name="background_dark">#1F1B16</color>
     <color name="onBackground_dark">#EAE1D9</color>
+    <color name="surface_dark">#1F1B16</color>
     <color name="onSurface_dark">#EAE1D9</color>
     <color name="surfaceVariant_dark">#4F4539</color>
     <color name="onSurfaceVariant_dark">#D3C4B4</color>
     <color name="outline_dark">#9C8F80</color>
     <color name="outlineVariant_dark">#4F4539</color>
 
-    <!-- Dark Mode Fallbacks -->
-    <color name="secondary_dark">#DDC2A1</color>
-    <color name="onSecondary_dark">#3E2D16</color>
-    <color name="secondaryContainer_dark">#56442A</color>
-    <color name="onSecondaryContainer_dark">#FBDEBC</color>
-    <color name="tertiary_dark">#B9CEA1</color>
-    <color name="onTertiary_dark">#253515</color>
-    <color name="tertiaryContainer_dark">#3B4C2A</color>
-    <color name="onTertiaryContainer_dark">#D5EABB</color>
-
+    <!-- Error Colors -->
+    <color name="error">#BA1A1A</color>
+    <color name="onError">#FFFFFF</color>
+    <color name="errorContainer">#FFDAD6</color>
+    <color name="onErrorContainer">#410002</color>
     <color name="error_dark">#FFB4AB</color>
     <color name="onError_dark">#690005</color>
     <color name="errorContainer_dark">#93000A</color>

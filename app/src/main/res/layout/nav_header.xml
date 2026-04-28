@@ -7,8 +7,7 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
-    android:fitsSystemWindows="true"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:fitsSystemWindows="true">
 
     <ImageView
         android:layout_width="64dp"
@@ -21,7 +20,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:text="POS Business Tracker"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
         android:textColor="?attr/colorOnPrimary"
         android:textStyle="bold" />
 
@@ -29,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Manage your store efficiently"
+        android:textAppearance="?attr/textAppearanceBodySmall"
         android:textColor="?attr/colorOnPrimary"
         android:alpha="0.8" />
 
