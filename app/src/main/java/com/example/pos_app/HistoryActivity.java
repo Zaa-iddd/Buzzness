@@ -1,5 +1,6 @@
 package com.example.pos_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -47,20 +48,26 @@ public class HistoryActivity extends AppCompatActivity {
         adapter = new TransactionAdapter(null);
         adapter.setExpanded(true); // Show all in this screen
         adapter.setOnTransactionClickListener(transaction -> {
-            ReceiptUtils.printTransactionReceipt(this, transaction);
+            Intent intent = new Intent(this, TransactionDetailActivity.class);
+            intent.putExtra(TransactionDetailActivity.EXTRA_TRANSACTION_ID, transaction.id);
+            startActivity(intent);
         });
         rvHistory.setAdapter(adapter);
     }
 
     private void loadData() {
-        List<Transaction> transactions = db.appDao().getAllTransactions();
-        if (transactions == null || transactions.isEmpty()) {
-            tvEmpty.setVisibility(View.VISIBLE);
-            rvHistory.setVisibility(View.GONE);
-        } else {
-            tvEmpty.setVisibility(View.GONE);
-            rvHistory.setVisibility(View.VISIBLE);
-            adapter.setTransactions(transactions);
-        }
+        new Thread(() -> {
+            List<Transaction> transactions = db.appDao().getAllTransactions();
+            runOnUiThread(() -> {
+                if (transactions == null || transactions.isEmpty()) {
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    rvHistory.setVisibility(View.GONE);
+                } else {
+                    tvEmpty.setVisibility(View.GONE);
+                    rvHistory.setVisibility(View.VISIBLE);
+                    adapter.setTransactions(transactions);
+                }
+            });
+        }).start();
     }
 }

@@ -33,6 +33,9 @@ public interface AppDao {
     @Query("SELECT * FROM transactions ORDER BY timestamp DESC")
     List<Transaction> getAllTransactions();
 
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    Transaction getTransactionById(int id);
+
     @Insert
     void insertTransaction(Transaction transaction);
     

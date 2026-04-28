@@ -38,6 +38,10 @@
             android:exported="false"
             android:label="Transaction History" />
         <activity
+            android:name=".TransactionDetailActivity"
+            android:exported="false"
+            android:label="Transaction Receipt" />
+        <activity
             android:name=".CustomScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
