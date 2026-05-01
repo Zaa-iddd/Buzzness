@@ -13,13 +13,13 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:contentDescription="App Icon"
-        android:src="@mipmap/ic_launcher_round" />
+        android:src="@drawable/ic_launcher_buzzness" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="POS Business Tracker"
+        android:text="@string/app_name"
         android:textAppearance="?attr/textAppearanceTitleMedium"
         android:textColor="?attr/colorOnPrimary"
         android:textStyle="bold" />

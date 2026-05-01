@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">POS_App</string>
+    <string name="app_name">Buzzness</string>
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_pos">Point of Sale</string>
     <string name="nav_inventory">Inventory</string>
