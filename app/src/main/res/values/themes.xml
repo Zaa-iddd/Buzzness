@@ -19,6 +19,8 @@
         <!-- System Bar Customizations -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!-- Use light icons for dark status bar background -->
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <!-- Theme Overlays -->
