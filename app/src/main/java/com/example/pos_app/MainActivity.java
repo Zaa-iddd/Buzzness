@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, HistoryActivity.class));
             } else if (id == R.id.nav_analysis) {
                 startActivity(new Intent(this, AnalysisActivity.class));
+            } else if (id == R.id.nav_calculators) {
+                startActivity(new Intent(this, CalculatorsActivity.class));
             } else if (id == R.id.nav_notifications) {
                 startActivity(new Intent(this, NotificationsActivity.class));
             } else if (id == R.id.nav_settings) {

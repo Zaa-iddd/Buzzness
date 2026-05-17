@@ -38,6 +38,30 @@
             android:exported="false"
             android:label="Transaction History" />
         <activity
+            android:name=".CalculatorsActivity"
+            android:exported="false"
+            android:label="Calculators" />
+        <activity
+            android:name=".TaxCalculatorActivity"
+            android:exported="false"
+            android:label="Tax Calculator" />
+        <activity
+            android:name=".CashFlowCalculatorActivity"
+            android:exported="false"
+            android:label="Cash Flow Calculator" />
+        <activity
+            android:name=".ROICalculatorActivity"
+            android:exported="false"
+            android:label="ROI Calculator" />
+        <activity
+            android:name=".ProfitMarginCalculatorActivity"
+            android:exported="false"
+            android:label="Profit Margin Calculator" />
+        <activity
+            android:name=".BreakEvenCalculatorActivity"
+            android:exported="false"
+            android:label="Break-Even Calculator" />
+        <activity
             android:name=".TransactionDetailActivity"
             android:exported="false"
             android:label="Transaction Receipt" />

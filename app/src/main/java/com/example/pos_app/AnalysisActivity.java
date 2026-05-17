@@ -81,7 +81,6 @@ public class AnalysisActivity extends AppCompatActivity {
     }
 
     private void setupCharts() {
-        // Setup LineChart
         salesChart.getDescription().setEnabled(false);
         salesChart.setDrawGridBackground(false);
         salesChart.getLegend().setEnabled(true);
@@ -89,7 +88,6 @@ public class AnalysisActivity extends AppCompatActivity {
         salesChart.getXAxis().setDrawGridLines(false);
         salesChart.getAxisRight().setEnabled(false);
 
-        // Setup BarChart
         productChart.getDescription().setEnabled(false);
         productChart.setDrawGridBackground(false);
         productChart.getLegend().setEnabled(false);

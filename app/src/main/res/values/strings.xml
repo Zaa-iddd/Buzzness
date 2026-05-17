@@ -5,7 +5,38 @@
     <string name="nav_inventory">Inventory</string>
     <string name="nav_history">Transaction History</string>
     <string name="nav_analysis">Sales Analysis</string>
+    <string name="nav_calculators">Calculators</string>
     <string name="nav_notifications">Notifications</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_tagline">Your Business, Simplified.</string>
+    <string name="calculators_placeholder">Quickly calculate key business metrics below.</string>
+
+    <string name="tax_calculator">Tax Calculator</string>
+    <string name="tax_calc_desc">Calculate sales tax and total amounts easily.</string>
+    <string name="cash_flow_calculator">Cash Flow Calculator</string>
+    <string name="cash_flow_calc_desc">Monitor your business net cash flow (Inflow vs Outflow).</string>
+    <string name="roi_calculator">ROI &amp; Investment Calculator</string>
+    <string name="roi_calc_desc">Evaluate the efficiency of an investment or compare several investments.</string>
+    <string name="profit_margin_calculator">Profit Margin Calculator</string>
+    <string name="profit_margin_calc_desc">Calculate your gross profit margin and net profit.</string>
+    <string name="break_even_calculator">Break-Even Calculator</string>
+    <string name="break_even_calc_desc">Find out how many units you need to sell to cover costs.</string>
+
+    <string name="calculate">Calculate</string>
+    <string name="amount">Amount</string>
+    <string name="tax_rate">Tax Rate (%)</string>
+    <string name="inflow">Inflow</string>
+    <string name="outflow">Outflow</string>
+    <string name="investment">Initial Investment</string>
+    <string name="return_amount">Final Return</string>
+
+    <string name="cost_price">Cost Price</string>
+    <string name="selling_price">Selling Price</string>
+    <string name="profit">Profit</string>
+    <string name="margin">Margin (%)</string>
+
+    <string name="fixed_costs">Fixed Costs (Total)</string>
+    <string name="variable_cost_per_unit">Variable Cost (per Unit)</string>
+    <string name="selling_price_per_unit">Selling Price (per Unit)</string>
+    <string name="break_even_units">Break-Even Units</string>
 </resources>
