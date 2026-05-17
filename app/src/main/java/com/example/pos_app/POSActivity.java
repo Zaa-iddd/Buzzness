@@ -1,6 +1,7 @@
 package com.example.pos_app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
@@ -303,11 +304,7 @@ public class POSActivity extends AppCompatActivity {
         }
 
         final double change = amountPaid - totalAmount;
-        final List<CartItem> itemsToPrint = new ArrayList<>(cartItems);
-        final double finalSubtotal = subtotal;
         final double finalDiscountPercent = discountPercent;
-        final double finalTotal = totalAmount;
-        final double finalPaid = amountPaid;
 
         StringBuilder itemsDescription = new StringBuilder();
         for (CartItem item : cartItems) {
@@ -329,15 +326,21 @@ public class POSActivity extends AppCompatActivity {
                 System.currentTimeMillis(),
                 ""
         );
-        db.appDao().insertTransaction(transaction);
+        
+        long newTransactionId = db.appDao().insertTransaction(transaction);
 
-        printReceipt(itemsToPrint, finalSubtotal, finalDiscountPercent, finalTotal, finalPaid, change);
+        // Open Transaction Detail instead of automatically printing
+        Intent intent = new Intent(this, TransactionDetailActivity.class);
+        intent.putExtra(TransactionDetailActivity.EXTRA_TRANSACTION_ID, (int) newTransactionId);
+        startActivity(intent);
 
         cartItems.clear();
         etAmountPaid.setText("");
         updateCart();
         loadProducts();
+        
         Toast.makeText(this, "Transaction Complete. Change: " + String.format(Locale.getDefault(), "$%.2f", change), Toast.LENGTH_LONG).show();
+        finish(); // Optional: Close POS activity after checkout
     }
 
     private void printReceipt(final List<CartItem> items, final double subtotal, final double discountPercent, final double total, final double paid, final double change) {

@@ -37,7 +37,7 @@ public interface AppDao {
     Transaction getTransactionById(int id);
 
     @Insert
-    void insertTransaction(Transaction transaction);
+    long insertTransaction(Transaction transaction);
     
     @Query("SELECT TOTAL(amount) FROM transactions")
     double getTotalBalance();

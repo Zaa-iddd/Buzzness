@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginTop="24dp"
-                android:text="Reprint Receipt"
+                android:text="@string/print_receipt"
                 app:icon="@android:drawable/ic_menu_save"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large" />
 

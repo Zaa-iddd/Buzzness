@@ -39,4 +39,6 @@
     <string name="variable_cost_per_unit">Variable Cost (per Unit)</string>
     <string name="selling_price_per_unit">Selling Price (per Unit)</string>
     <string name="break_even_units">Break-Even Units</string>
+
+    <string name="print_receipt">Print Receipt</string>
 </resources>
