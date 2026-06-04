@@ -34,7 +34,7 @@
                 android:id="@+id/tv_cart_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$0.00 x 1"
+                android:text="0.00 x 1"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:alpha="0.7" />
         </LinearLayout>
@@ -43,7 +43,7 @@
             android:id="@+id/tv_cart_item_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$0.00"
+            android:text="0.00"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textColor="?attr/colorPrimary"
             android:textStyle="bold"

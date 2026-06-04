@@ -66,7 +66,7 @@ public class TransactionDetailActivity extends AppCompatActivity {
         LinearLayout itemsContainer = findViewById(R.id.layout_items_container);
 
         tvDate.setText(dateFormat.format(new Date(transaction.timestamp)));
-        tvTotal.setText(String.format(Locale.getDefault(), "$%.2f", transaction.amount));
+        tvTotal.setText(CurrencyUtils.formatAmount(this, transaction.amount));
         tvId.setText("ID: #" + transaction.id);
 
         itemsContainer.removeAllViews();

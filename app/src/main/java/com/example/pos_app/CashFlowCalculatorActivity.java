@@ -37,6 +37,10 @@ public class CashFlowCalculatorActivity extends AppCompatActivity {
         Button btnCalculate = findViewById(R.id.btn_calculate_cash_flow);
         TextView tvResult = findViewById(R.id.tv_cash_flow_result);
 
+        String currencySymbol = CurrencyUtils.getCurrencySymbol(this);
+        if (etInflow != null) etInflow.setHint("Total Inflow (" + currencySymbol + ")");
+        if (etOutflow != null) etOutflow.setHint("Total Outflow (" + currencySymbol + ")");
+
         if (btnCalculate != null) {
             btnCalculate.setOnClickListener(v -> {
                 try {
@@ -49,7 +53,8 @@ public class CashFlowCalculatorActivity extends AppCompatActivity {
                     double inflow = Double.parseDouble(inflowStr);
                     double outflow = Double.parseDouble(outflowStr);
                     double net = inflow - outflow;
-                    tvResult.setText(String.format(Locale.getDefault(), "Net Cash Flow: $%.2f", net));
+                    tvResult.setText(String.format(Locale.getDefault(), "Net Cash Flow: %s", 
+                            CurrencyUtils.formatAmount(this, net)));
                 } catch (NumberFormatException e) {
                     Toast.makeText(this, "Please enter valid numbers", Toast.LENGTH_SHORT).show();
                 }

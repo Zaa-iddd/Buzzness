@@ -52,7 +52,8 @@ public class ProfitMarginCalculatorActivity extends AppCompatActivity {
                     double profit = selling - cost;
                     double margin = (selling != 0) ? (profit / selling) * 100.0 : 0;
                     
-                    tvResult.setText(String.format(Locale.getDefault(), "Profit: $%.2f | Margin: %.2f%%", profit, margin));
+                    tvResult.setText(String.format(Locale.getDefault(), "Profit: %s | Margin: %.2f%%", 
+                            CurrencyUtils.formatAmount(this, profit), margin));
                 } catch (NumberFormatException e) {
                     Toast.makeText(this, "Please enter valid numbers", Toast.LENGTH_SHORT).show();
                 }

@@ -23,6 +23,7 @@ public class ReceiptUtils {
     public static void printTransactionReceipt(Context context, Transaction transaction) {
         PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
         String jobName = context.getString(R.string.app_name) + " Receipt";
+        String currencySymbol = CurrencyUtils.getCurrencySymbol(context);
 
         printManager.print(jobName, new PrintDocumentAdapter() {
             @Override
@@ -81,7 +82,7 @@ public class ReceiptUtils {
                 paint.setFakeBoldText(true);
                 paint.setTextSize(14f);
                 canvas.drawText("TOTAL:", 20, y, paint);
-                canvas.drawText(String.format(Locale.getDefault(), "$%.2f", transaction.amount), 210, y, paint);
+                canvas.drawText(String.format(Locale.getDefault(), "%s%.2f", currencySymbol, transaction.amount), 210, y, paint);
                 
                 y += 40;
                 paint.setTextSize(10f);

@@ -37,6 +37,10 @@ public class TaxCalculatorActivity extends AppCompatActivity {
         Button btnCalculate = findViewById(R.id.btn_calculate_tax);
         TextView tvResult = findViewById(R.id.tv_tax_result);
 
+        if (etAmount != null) {
+            etAmount.setHint("Amount (" + CurrencyUtils.getCurrencySymbol(this) + ")");
+        }
+
         if (btnCalculate != null) {
             btnCalculate.setOnClickListener(v -> {
                 try {
@@ -50,7 +54,9 @@ public class TaxCalculatorActivity extends AppCompatActivity {
                     double rate = Double.parseDouble(rateStr);
                     double tax = amount * (rate / 100.0);
                     double total = amount + tax;
-                    tvResult.setText(String.format(Locale.getDefault(), "Tax: $%.2f | Total: $%.2f", tax, total));
+                    tvResult.setText(String.format(Locale.getDefault(), "Tax: %s | Total: %s", 
+                            CurrencyUtils.formatAmount(this, tax), 
+                            CurrencyUtils.formatAmount(this, total)));
                 } catch (NumberFormatException e) {
                     Toast.makeText(this, "Please enter valid numbers", Toast.LENGTH_SHORT).show();
                 }

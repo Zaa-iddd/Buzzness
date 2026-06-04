@@ -53,7 +53,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         Transaction transaction = transactions.get(position);
         holder.tvDesc.setText(transaction.description);
         holder.tvDate.setText(dateFormat.format(new Date(transaction.timestamp)));
-        holder.tvAmount.setText(String.format(Locale.getDefault(), "+$%.2f", transaction.amount));
+        holder.tvAmount.setText("+" + CurrencyUtils.formatAmount(holder.itemView.getContext(), transaction.amount));
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

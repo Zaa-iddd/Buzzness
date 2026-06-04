@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
     private AppDatabase db;
     private RadioGroup rgTheme;
     private RadioGroup rgTone;
+    private RadioGroup rgCurrency;
     private boolean isUpdatingUI = true; // Start true to block initial triggers
 
     @Override
@@ -31,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
         db = AppDatabase.getInstance(this);
         rgTheme = findViewById(R.id.rg_theme);
         rgTone = findViewById(R.id.rg_tone);
+        rgCurrency = findViewById(R.id.rg_currency);
 
         setupListeners();
         loadSettings();
@@ -40,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
         new Thread(() -> {
             String theme = db.appDao().getSetting("theme");
             String tone = db.appDao().getSetting("tone");
+            String currency = db.appDao().getSetting("currency");
             
             runOnUiThread(() -> {
                 isUpdatingUI = true;
@@ -62,6 +65,19 @@ public class SettingsActivity extends AppCompatActivity {
                     rgTone.check(R.id.rb_tone_purple);
                 } else {
                     rgTone.check(R.id.rb_tone_gold);
+                }
+
+                // Load Currency
+                if ("EUR".equals(currency)) {
+                    rgCurrency.check(R.id.rb_currency_eur);
+                } else if ("GBP".equals(currency)) {
+                    rgCurrency.check(R.id.rb_currency_gbp);
+                } else if ("JPY".equals(currency)) {
+                    rgCurrency.check(R.id.rb_currency_jpy);
+                } else if ("PHP".equals(currency)) {
+                    rgCurrency.check(R.id.rb_currency_php);
+                } else {
+                    rgCurrency.check(R.id.rb_currency_usd);
                 }
                 
                 isUpdatingUI = false;
@@ -114,6 +130,26 @@ public class SettingsActivity extends AppCompatActivity {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             startActivity(new Intent(this, this.getClass()));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        });
+
+        rgCurrency.setOnCheckedChangeListener((group, checkedId) -> {
+            if (isUpdatingUI) return;
+
+            String currencyValue;
+            if (checkedId == R.id.rb_currency_eur) {
+                currencyValue = "EUR";
+            } else if (checkedId == R.id.rb_currency_gbp) {
+                currencyValue = "GBP";
+            } else if (checkedId == R.id.rb_currency_jpy) {
+                currencyValue = "JPY";
+            } else if (checkedId == R.id.rb_currency_php) {
+                currencyValue = "PHP";
+            } else {
+                currencyValue = "USD";
+            }
+
+            CurrencyUtils.setCachedCurrency(currencyValue);
+            saveSetting("currency", currencyValue);
         });
     }
 

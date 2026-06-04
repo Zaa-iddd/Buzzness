@@ -38,6 +38,68 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Currency"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:layout_marginBottom="12dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="?attr/colorOutlineVariant">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <RadioGroup
+                        android:id="@+id/rg_currency"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_currency_usd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="US Dollar ($)" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_currency_eur"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Euro (€)" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_currency_gbp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="British Pound (£)" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_currency_jpy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Japanese Yen (¥)" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rb_currency_php"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Philippine Peso (₱)" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Tone &amp; Palette"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:layout_marginBottom="12dp" />

@@ -55,7 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.tvStock.setText(String.format(Locale.getDefault(), "Stock: %d", product.quantity));
         }
         if (holder.tvPrice != null) {
-            holder.tvPrice.setText(String.format(Locale.getDefault(), "$%.2f", product.price));
+            holder.tvPrice.setText(CurrencyUtils.formatAmount(holder.itemView.getContext(), product.price));
         }
         
         holder.itemView.setOnClickListener(v -> {

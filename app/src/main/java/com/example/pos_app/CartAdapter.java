@@ -41,8 +41,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartItem item = cartItems.get(position);
         holder.tvName.setText(item.product.name);
-        holder.tvPrice.setText(String.format(Locale.getDefault(), "$%.2f x %d", item.product.price, item.quantity));
-        holder.tvTotal.setText(String.format(Locale.getDefault(), "$%.2f", item.getTotalPrice()));
+        String currencySymbol = CurrencyUtils.getCurrencySymbol(holder.itemView.getContext());
+        holder.tvPrice.setText(String.format(Locale.getDefault(), "%s%.2f x %d", currencySymbol, item.product.price, item.quantity));
+        holder.tvTotal.setText(CurrencyUtils.formatAmount(holder.itemView.getContext(), item.getTotalPrice()));
 
         holder.btnRemove.setOnClickListener(v -> {
             if (listener != null) {

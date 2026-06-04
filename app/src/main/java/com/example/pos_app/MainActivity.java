@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
         int productCount = db.appDao().getProductCount();
         int lowStockCount = db.appDao().getLowStockCount(5);
 
-        if (tvBalance != null) tvBalance.setText(String.format(Locale.getDefault(), "$%.2f", balance));
+        if (tvBalance != null) tvBalance.setText(CurrencyUtils.formatAmount(this, balance));
         if (tvSalesCount != null) tvSalesCount.setText(String.valueOf(salesCount));
         if (tvProductCount != null) tvProductCount.setText(String.valueOf(productCount));
         if (tvLowStock != null) tvLowStock.setText(String.valueOf(lowStockCount));
@@ -283,6 +283,10 @@ public class MainActivity extends AppCompatActivity {
         EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
         Button btnScan = dialogView.findViewById(R.id.btn_scan_qr);
 
+        if (etPrice != null) {
+            etPrice.setHint("Price (" + CurrencyUtils.getCurrencySymbol(this) + ")");
+        }
+
         if (btnScan != null) {
             btnScan.setOnClickListener(v -> {
                 currentQrEditText = etQrCode;
@@ -322,6 +326,10 @@ public class MainActivity extends AppCompatActivity {
         EditText etStock = dialogView.findViewById(R.id.et_stock);
         EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
         Button btnScan = dialogView.findViewById(R.id.btn_scan_qr);
+
+        if (etPrice != null) {
+            etPrice.setHint("Price (" + CurrencyUtils.getCurrencySymbol(this) + ")");
+        }
 
         if (etName != null) etName.setText(product.name);
         if (etPrice != null) etPrice.setText(String.valueOf(product.price));

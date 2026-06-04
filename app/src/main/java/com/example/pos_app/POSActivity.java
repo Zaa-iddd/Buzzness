@@ -274,8 +274,8 @@ public class POSActivity extends AppCompatActivity {
         double discount = subtotal * (discountPercent / 100.0);
         totalAmount = subtotal - discount;
 
-        tvSubtotal.setText(String.format(Locale.getDefault(), "$%.2f", subtotal));
-        tvTotal.setText(String.format(Locale.getDefault(), "$%.2f", totalAmount));
+        tvSubtotal.setText(CurrencyUtils.formatAmount(this, subtotal));
+        tvTotal.setText(CurrencyUtils.formatAmount(this, totalAmount));
     }
 
     private void handleCheckout() {
@@ -339,13 +339,14 @@ public class POSActivity extends AppCompatActivity {
         updateCart();
         loadProducts();
         
-        Toast.makeText(this, "Transaction Complete. Change: " + String.format(Locale.getDefault(), "$%.2f", change), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Transaction Complete. Change: " + CurrencyUtils.formatAmount(this, change), Toast.LENGTH_LONG).show();
         finish(); // Optional: Close POS activity after checkout
     }
 
     private void printReceipt(final List<CartItem> items, final double subtotal, final double discountPercent, final double total, final double paid, final double change) {
         PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
         String jobName = getString(R.string.app_name) + " Receipt";
+        String currencySymbol = CurrencyUtils.getCurrencySymbol(this);
 
         printManager.print(jobName, new PrintDocumentAdapter() {
             @Override
@@ -386,7 +387,7 @@ public class POSActivity extends AppCompatActivity {
                 y += 20;
                 for (CartItem item : items) {
                     canvas.drawText(item.product.name + " x" + item.quantity, 20, y, paint);
-                    canvas.drawText(String.format(Locale.getDefault(), "$%.2f", item.getTotalPrice()), 220, y, paint);
+                    canvas.drawText(String.format(Locale.getDefault(), "%s%.2f", currencySymbol, item.getTotalPrice()), 220, y, paint);
                     y += 20;
                 }
                 
@@ -396,28 +397,28 @@ public class POSActivity extends AppCompatActivity {
                 if (discountPercent > 0) {
                     y += 20;
                     canvas.drawText("Subtotal:", 20, y, paint);
-                    canvas.drawText(String.format(Locale.getDefault(), "$%.2f", subtotal), 210, y, paint);
+                    canvas.drawText(String.format(Locale.getDefault(), "%s%.2f", currencySymbol, subtotal), 210, y, paint);
                     
                     y += 20;
                     canvas.drawText(String.format(Locale.getDefault(), "Discount (%.0f%%):", discountPercent), 20, y, paint);
-                    canvas.drawText(String.format(Locale.getDefault(), "-$%.2f", subtotal * (discountPercent/100.0)), 210, y, paint);
+                    canvas.drawText(String.format(Locale.getDefault(), "-%s%.2f", currencySymbol, subtotal * (discountPercent/100.0)), 210, y, paint);
                 }
 
                 y += 20;
                 paint.setFakeBoldText(true);
                 paint.setTextSize(14f);
                 canvas.drawText("TOTAL:", 20, y, paint);
-                canvas.drawText(String.format(Locale.getDefault(), "$%.2f", total), 210, y, paint);
+                canvas.drawText(String.format(Locale.getDefault(), "%s%.2f", currencySymbol, total), 210, y, paint);
                 
                 y += 25;
                 paint.setFakeBoldText(false);
                 paint.setTextSize(12f);
                 canvas.drawText("Paid:", 20, y, paint);
-                canvas.drawText(String.format(Locale.getDefault(), "$%.2f", paid), 210, y, paint);
+                canvas.drawText(String.format(Locale.getDefault(), "%s%.2f", currencySymbol, paid), 210, y, paint);
                 
                 y += 20;
                 canvas.drawText("Change:", 20, y, paint);
-                canvas.drawText(String.format(Locale.getDefault(), "$%.2f", change), 210, y, paint);
+                canvas.drawText(String.format(Locale.getDefault(), "%s%.2f", currencySymbol, change), 210, y, paint);
                 
                 y += 40;
                 paint.setTextSize(10f);

@@ -136,8 +136,8 @@ public class AnalysisActivity extends AppCompatActivity {
             tvInsight.setText("No sales data available for the selected period.");
         } else {
             tvInsight.setText(String.format(Locale.getDefault(), 
-                "Your total revenue reached $%.2f over %d transactions in this period.", 
-                cumulativeBalance, entries.size()));
+                "Your total revenue reached %s over %d transactions in this period.", 
+                CurrencyUtils.formatAmount(this, cumulativeBalance), entries.size()));
         }
     }
 
