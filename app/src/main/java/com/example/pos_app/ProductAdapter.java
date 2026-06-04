@@ -1,8 +1,10 @@
 package com.example.pos_app;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +49,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         if (products == null || position >= products.size()) return;
         Product product = products.get(position);
         
-        // Use null checks to prevent crashes if IDs are missing from the layout
         if (holder.tvName != null) {
             holder.tvName.setText(product.name != null ? product.name : "Unknown");
         }
@@ -56,6 +57,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
         if (holder.tvPrice != null) {
             holder.tvPrice.setText(CurrencyUtils.formatAmount(holder.itemView.getContext(), product.price));
+        }
+        
+        if (holder.ivProduct != null) {
+            if (product.imageUri != null && !product.imageUri.isEmpty()) {
+                holder.ivProduct.setImageURI(Uri.parse(product.imageUri));
+            } else {
+                holder.ivProduct.setImageResource(R.drawable.ic_inventory);
+            }
         }
         
         holder.itemView.setOnClickListener(v -> {
@@ -77,12 +86,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvStock, tvPrice;
+        ImageView ivProduct;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_product_name);
             tvStock = itemView.findViewById(R.id.tv_product_stock);
             tvPrice = itemView.findViewById(R.id.tv_product_price);
+            ivProduct = itemView.findViewById(R.id.iv_product_image);
         }
     }
 }

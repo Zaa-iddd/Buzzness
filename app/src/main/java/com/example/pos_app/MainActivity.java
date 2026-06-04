@@ -1,6 +1,7 @@
 package com.example.pos_app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,11 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -49,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private EditText currentQrEditText;
+    private ImageView currentDialogImageView;
+    private String selectedImageUri = null;
 
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
@@ -56,6 +61,20 @@ public class MainActivity extends AppCompatActivity {
                     currentQrEditText.setText(result.getContents());
                 }
             });
+
+    private final ActivityResultLauncher<String> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    // Persist permission to access this URI across reboots if needed (for actual production, might need more work)
+                    getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    selectedImageUri = uri.toString();
+                    if (currentDialogImageView != null) {
+                        currentDialogImageView.setImageURI(uri);
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onRestart() {
@@ -276,15 +295,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAddProductDialog() {
+        selectedImageUri = null;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null);
         EditText etName = dialogView.findViewById(R.id.et_name);
         EditText etPrice = dialogView.findViewById(R.id.et_price);
         EditText etStock = dialogView.findViewById(R.id.et_stock);
         EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
         Button btnScan = dialogView.findViewById(R.id.btn_scan_qr);
+        ImageView ivPreview = dialogView.findViewById(R.id.iv_product_preview);
+        View btnSelectImage = dialogView.findViewById(R.id.fab_select_image);
 
         if (etPrice != null) {
             etPrice.setHint("Price (" + CurrencyUtils.getCurrencySymbol(this) + ")");
+        }
+
+        if (btnSelectImage != null) {
+            btnSelectImage.setOnClickListener(v -> {
+                currentDialogImageView = ivPreview;
+                imagePickerLauncher.launch("image/*");
+            });
         }
 
         if (btnScan != null) {
@@ -309,6 +338,7 @@ public class MainActivity extends AppCompatActivity {
                         String qr = etQrCode.getText().toString();
                         Product product = new Product(name, stock, price);
                         product.qrCode = qr;
+                        product.imageUri = selectedImageUri;
                         db.appDao().insertProduct(product);
                         refreshData();
                     } catch (Exception e) {
@@ -320,12 +350,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showEditProductDialog(Product product) {
+        selectedImageUri = product.imageUri;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null);
         EditText etName = dialogView.findViewById(R.id.et_name);
         EditText etPrice = dialogView.findViewById(R.id.et_price);
         EditText etStock = dialogView.findViewById(R.id.et_stock);
         EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
         Button btnScan = dialogView.findViewById(R.id.btn_scan_qr);
+        ImageView ivPreview = dialogView.findViewById(R.id.iv_product_preview);
+        View btnSelectImage = dialogView.findViewById(R.id.fab_select_image);
 
         if (etPrice != null) {
             etPrice.setHint("Price (" + CurrencyUtils.getCurrencySymbol(this) + ")");
@@ -335,6 +368,17 @@ public class MainActivity extends AppCompatActivity {
         if (etPrice != null) etPrice.setText(String.valueOf(product.price));
         if (etStock != null) etStock.setText(String.valueOf(product.quantity));
         if (etQrCode != null) etQrCode.setText(product.qrCode);
+        
+        if (ivPreview != null && product.imageUri != null && !product.imageUri.isEmpty()) {
+            ivPreview.setImageURI(Uri.parse(product.imageUri));
+        }
+
+        if (btnSelectImage != null) {
+            btnSelectImage.setOnClickListener(v -> {
+                currentDialogImageView = ivPreview;
+                imagePickerLauncher.launch("image/*");
+            });
+        }
 
         if (btnScan != null) {
             btnScan.setOnClickListener(v -> {
@@ -356,6 +400,7 @@ public class MainActivity extends AppCompatActivity {
                         product.price = Double.parseDouble(etPrice.getText().toString());
                         product.quantity = Integer.parseInt(etStock.getText().toString());
                         product.qrCode = etQrCode.getText().toString();
+                        product.imageUri = selectedImageUri;
                         db.appDao().updateProduct(product);
                         refreshData();
                     } catch (Exception e) {

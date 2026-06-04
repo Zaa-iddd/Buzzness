@@ -1,5 +1,7 @@
 package com.example.pos_app;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +26,8 @@ import com.example.pos_app.data.AppDatabase;
 import com.example.pos_app.data.Product;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,6 +43,34 @@ public class InventoryActivity extends AppCompatActivity {
     private List<Product> allProducts = new ArrayList<>();
     private String currentQuery = "";
     private static final int LOW_STOCK_THRESHOLD = 5;
+
+    private EditText currentQrEditText;
+    private ImageView currentDialogImageView;
+    private String selectedImageUri = null;
+
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
+            result -> {
+                if(result.getContents() != null && currentQrEditText != null) {
+                    currentQrEditText.setText(result.getContents());
+                }
+            });
+
+    private final ActivityResultLauncher<String> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    try {
+                        getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    } catch (Exception e) {
+                        // Persistence might fail depending on URI source, but we continue
+                    }
+                    selectedImageUri = uri.toString();
+                    if (currentDialogImageView != null) {
+                        currentDialogImageView.setImageURI(uri);
+                    }
+                }
+            }
+    );
 
     @Override
     protected void onRestart() {
@@ -145,10 +180,32 @@ public class InventoryActivity extends AppCompatActivity {
     }
 
     private void showAddProductDialog() {
+        selectedImageUri = null;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null);
         EditText etName = dialogView.findViewById(R.id.et_name);
         EditText etPrice = dialogView.findViewById(R.id.et_price);
         EditText etStock = dialogView.findViewById(R.id.et_stock);
+        EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
+        View btnScan = dialogView.findViewById(R.id.btn_scan_qr);
+        ImageView ivPreview = dialogView.findViewById(R.id.iv_product_preview);
+        View btnSelectImage = dialogView.findViewById(R.id.fab_select_image);
+
+        if (btnSelectImage != null) {
+            btnSelectImage.setOnClickListener(v -> {
+                currentDialogImageView = ivPreview;
+                imagePickerLauncher.launch("image/*");
+            });
+        }
+
+        if (btnScan != null) {
+            btnScan.setOnClickListener(v -> {
+                currentQrEditText = etQrCode;
+                ScanOptions options = new ScanOptions();
+                options.setCaptureActivity(CustomScannerActivity.class);
+                options.setPrompt("Scan Product QR/Barcode");
+                barcodeLauncher.launch(options);
+            });
+        }
 
         new AlertDialog.Builder(this)
                 .setTitle("Add New Product")
@@ -158,7 +215,10 @@ public class InventoryActivity extends AppCompatActivity {
                         String name = etName.getText().toString();
                         double price = Double.parseDouble(etPrice.getText().toString());
                         int stock = Integer.parseInt(etStock.getText().toString());
-                        db.appDao().insertProduct(new Product(name, stock, price));
+                        Product product = new Product(name, stock, price);
+                        product.qrCode = etQrCode.getText().toString();
+                        product.imageUri = selectedImageUri;
+                        db.appDao().insertProduct(product);
                         loadData();
                     } catch (Exception e) {
                         Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
@@ -169,14 +229,41 @@ public class InventoryActivity extends AppCompatActivity {
     }
 
     private void showEditProductDialog(Product product) {
+        selectedImageUri = product.imageUri;
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null);
         EditText etName = dialogView.findViewById(R.id.et_name);
         EditText etPrice = dialogView.findViewById(R.id.et_price);
         EditText etStock = dialogView.findViewById(R.id.et_stock);
+        EditText etQrCode = dialogView.findViewById(R.id.et_qr_code);
+        View btnScan = dialogView.findViewById(R.id.btn_scan_qr);
+        ImageView ivPreview = dialogView.findViewById(R.id.iv_product_preview);
+        View btnSelectImage = dialogView.findViewById(R.id.fab_select_image);
 
         if (etName != null) etName.setText(product.name);
         if (etPrice != null) etPrice.setText(String.valueOf(product.price));
         if (etStock != null) etStock.setText(String.valueOf(product.quantity));
+        if (etQrCode != null) etQrCode.setText(product.qrCode);
+        
+        if (ivPreview != null && product.imageUri != null && !product.imageUri.isEmpty()) {
+            ivPreview.setImageURI(Uri.parse(product.imageUri));
+        }
+
+        if (btnSelectImage != null) {
+            btnSelectImage.setOnClickListener(v -> {
+                currentDialogImageView = ivPreview;
+                imagePickerLauncher.launch("image/*");
+            });
+        }
+
+        if (btnScan != null) {
+            btnScan.setOnClickListener(v -> {
+                currentQrEditText = etQrCode;
+                ScanOptions options = new ScanOptions();
+                options.setCaptureActivity(CustomScannerActivity.class);
+                options.setPrompt("Scan Product QR/Barcode");
+                barcodeLauncher.launch(options);
+            });
+        }
 
         new AlertDialog.Builder(this)
                 .setTitle("Edit Product")
@@ -186,6 +273,8 @@ public class InventoryActivity extends AppCompatActivity {
                         product.name = etName.getText().toString();
                         product.price = Double.parseDouble(etPrice.getText().toString());
                         product.quantity = Integer.parseInt(etStock.getText().toString());
+                        product.qrCode = etQrCode.getText().toString();
+                        product.imageUri = selectedImageUri;
                         db.appDao().updateProduct(product);
                         loadData();
                     } catch (Exception e) {

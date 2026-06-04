@@ -13,6 +13,7 @@ public class Product {
     public double price;
     public int salesCount; // To track most bought items
     public String qrCode; // Custom QR code identifier
+    public String imageUri; // URI string for product photo
 
     public Product(String name, int quantity, double price) {
         this.name = name;
