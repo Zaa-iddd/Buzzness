@@ -16,10 +16,12 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
             android:background="?attr/colorSurfaceVariant"
-            android:src="@drawable/ic_inventory" />
+            android:src="@drawable/ic_image"
+            app:tint="?attr/colorOnSurfaceVariant"
+            android:padding="32dp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_select_image"
@@ -29,7 +31,8 @@
             android:layout_marginTop="40dp"
             android:layout_marginStart="40dp"
             app:fabSize="mini"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
+            app:srcCompat="@drawable/ic_camera"
+            app:tint="?attr/colorOnPrimary" />
     </FrameLayout>
 
     <com.google.android.material.textfield.TextInputLayout

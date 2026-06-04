@@ -25,7 +25,7 @@
             android:title="@string/nav_analysis" />
         <item
             android:id="@+id/nav_calculators"
-            android:icon="@drawable/ic_pos"
+            android:icon="@drawable/ic_calculator"
             android:title="@string/nav_calculators" />
     </group>
 

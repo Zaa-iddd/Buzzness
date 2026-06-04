@@ -68,7 +68,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_pos"
+                        android:src="@drawable/ic_calculator"
                         app:tint="?attr/colorPrimary"
                         android:contentDescription="@string/tax_calculator" />
 
@@ -118,7 +118,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_analysis"
+                        android:src="@drawable/ic_receipt"
                         app:tint="?attr/colorPrimary"
                         android:contentDescription="@string/cash_flow_calculator" />
 
@@ -168,7 +168,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_inventory"
+                        android:src="@drawable/ic_trending_up"
                         app:tint="?attr/colorPrimary"
                         android:contentDescription="@string/roi_calculator" />
 
@@ -218,7 +218,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_dashboard"
+                        android:src="@drawable/ic_analysis"
                         app:tint="?attr/colorPrimary"
                         android:contentDescription="@string/profit_margin_calculator" />
 
@@ -268,7 +268,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_history"
+                        android:src="@drawable/ic_calculator"
                         app:tint="?attr/colorPrimary"
                         android:contentDescription="@string/break_even_calculator" />
 
